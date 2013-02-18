@@ -1,5 +1,8 @@
-int dispenseTime = 700;
+int brightness = 0;    // how bright the LED is
+int fadeAmount = 5;    // how many points to fade the LED by
 
+
+int dispenseTime = 700;
 
 int motor = 14;
 int handSensor = 5;
@@ -25,7 +28,7 @@ pinMode(rLED,OUTPUT);
 pinMode(gLED,OUTPUT);
 pinMode(bLED,OUTPUT);
 
-digitalWrite(gLED,HIGH);
+//digitalWrite(gLED,HIGH);
 
 Serial.begin(9600);
 
@@ -40,6 +43,18 @@ if (handDetected == 1)
  Serial.println("YOLO");
  handDetected = 0;
 } 
+
+
+analogWrite(rLED, brightness);    
+analogWrite(gLED, brightness);   
+analogWrite(bLED, brightness);   
+brightness = brightness + fadeAmount;
+
+if (brightness == 0 || brightness == 255) {
+ fadeAmount = -fadeAmount ; 
+  }     
+delay(30);        
+
     
   
   
