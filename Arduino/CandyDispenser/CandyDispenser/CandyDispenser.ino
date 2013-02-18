@@ -3,6 +3,8 @@ int fadeAmount = 5;    // how many points to fade the LED by
 
 
 int dispenseTime = 700;
+unsigned long previousTime = millis();
+int candyDispensed = 0;
 
 int motor = 14;
 int handSensor = 5;
@@ -37,11 +39,48 @@ attachInterrupt(0, handDetect_func, RISING);
 
 void loop() {
   // put your main code here, to run repeatedly: 
+
+while (digitalRead(tableDetect) ==   LOW)
+{
+digitalWrite(bLED, 0);    
+digitalWrite(gLED, 0);    
+
+digitalWrite(rLED, 1);    
+delay(250);
+analogWrite(rLED, 0);
+delay(250);  
+  
+}  
+ 
+  
   
 if (handDetected == 1)  
 {
  Serial.println("YOLO");
  handDetected = 0;
+ 
+analogWrite(bLED, 0);    
+analogWrite(gLED, 0);    
+
+
+digitalWrite(rLED, HIGH);    
+delay(150);
+digitalWrite(rLED, LOW);
+delay(150);
+digitalWrite(rLED, HIGH);
+delay(150);
+digitalWrite(rLED, LOW);
+delay(150);
+digitalWrite(rLED, HIGH);
+delay(150);
+digitalWrite(rLED, LOW);
+delay(150);
+digitalWrite(rLED, HIGH);
+delay(150);
+digitalWrite(rLED, LOW);
+delay(150);
+ 
+ 
 } 
 
 
@@ -84,11 +123,38 @@ delay(30);
     }
  
    else if (buffer == '\n') {
-     if (i==4)  
+     
+     if (i==4 && candy <=5)  
+     {        
+     digitalWrite(bLED, 0);        
+     digitalWrite(rLED, 0);    
+     
+     previousTime = millis();
+     candyDispensed = 0;
+     Serial.println('Waiting for hand');     
+     
+     while( ((millis() - previousTime) < 10000) && candyDispensed == 0)
+     {
+      analogWrite(gLED, brightness);   
+      brightness = brightness + fadeAmount;
+      if (brightness == 0 || brightness == 255) {
+       fadeAmount = -fadeAmount ; }
+      delay(30);  
+     
+     if (handDetected == 1)  
+      {
       if ( dispenseCandy(candy) )
        Serial.println('Fin');
-      else
-        Serial.println('OOB');
+      handDetected = 0; 
+      candyDispensed = 1;
+      }
+        
+     }
+        
+     }
+  else
+   Serial.println("Out of bounds");
+        
      i = 0; 
     }
     
@@ -100,10 +166,25 @@ delay(30);
 
 int dispenseCandy(int howMuchCandy)
 {
+int calculatedDispenseTime = howMuchCandy * dispenseTime;  
+unsigned long startTime = millis();
+  
  if (howMuchCandy > 0 && howMuchCandy <=5)
  {   
     digitalWrite(motor,HIGH);
-    delay(howMuchCandy * dispenseTime);
+    digitalWrite(rLED,LOW);
+    digitalWrite(gLED,LOW);
+    
+    
+    while ( (millis() - startTime) < calculatedDispenseTime )
+    {
+     digitalWrite(bLED,HIGH);
+     delay(150);
+     digitalWrite(bLED,LOW);
+     delay(150);
+    }  
+    
+    
     digitalWrite(motor,LOW); 
     return 1;
  }
