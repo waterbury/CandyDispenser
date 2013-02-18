@@ -40,7 +40,7 @@ attachInterrupt(0, handDetect_func, RISING);
 void loop() {
   // put your main code here, to run repeatedly: 
 
-while (digitalRead(tableDetect) ==   LOW)
+while (digitalRead(tableDetect) ==   HIGH)
 {
 digitalWrite(bLED, 0);    
 digitalWrite(gLED, 0);    
