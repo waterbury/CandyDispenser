@@ -29,7 +29,7 @@ digitalWrite(gLED,HIGH);
 
 Serial.begin(9600);
 
-attachInterrupt(handSensor, handDetect_func, RISING);
+attachInterrupt(0, handDetect_func, RISING);
 }
 
 void loop() {
@@ -38,7 +38,7 @@ void loop() {
 if (handDetected == 1)  
 {
  Serial.println("YOLO");
- handDetected ==0;
+ handDetected = 0;
 } 
     
   
@@ -59,8 +59,12 @@ if (handDetected == 1)
      if (i == 2) i =3;
       else i = 0;  }
       
-   else if (i == 3) {
-     candy = buffer;
+   else if (i == 3)
+    {      
+     if (buffer >= 48 && buffer <= 57)     
+      candy = buffer - 48;
+     else 
+      candy = 0;
      i = 4;
     }
  
