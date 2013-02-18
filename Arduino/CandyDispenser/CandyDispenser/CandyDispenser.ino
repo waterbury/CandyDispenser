@@ -25,6 +25,8 @@ pinMode(rLED,OUTPUT);
 pinMode(gLED,OUTPUT);
 pinMode(bLED,OUTPUT);
 
+digitalWrite(gLED,HIGH);
+
 Serial.begin(9600);
 
 attachInterrupt(handSensor, handDetect_func, RISING);
@@ -66,6 +68,8 @@ if (handDetected == 1)
      if (i==4)  
       if ( dispenseCandy(candy) )
        Serial.println('Fin');
+      else
+        Serial.println('OOB');
      i = 0; 
     }
     
