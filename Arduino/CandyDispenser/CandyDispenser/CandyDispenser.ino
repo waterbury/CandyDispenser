@@ -8,7 +8,7 @@ int candyDispensed = 0;
 
 int motor = 14;
 int handSensor = 5;
-int tableDetect = 3;
+int tableDetect = 8;
 int rLED = 9;
 int gLED = 10;
 int bLED = 11;
