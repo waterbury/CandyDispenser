@@ -131,7 +131,7 @@ delay(30);
      
      previousTime = millis();
      candyDispensed = 0;
-     Serial.println('Waiting for hand');     
+     Serial.println("Waiting for hand");     
      
      while( ((millis() - previousTime) < 10000) && candyDispensed == 0)
      {
@@ -144,7 +144,7 @@ delay(30);
      if (handDetected == 1)  
       {
       if ( dispenseCandy(candy) )
-       Serial.println('Fin');
+       Serial.println("Fin");
       handDetected = 0; 
       candyDispensed = 1;
       }
